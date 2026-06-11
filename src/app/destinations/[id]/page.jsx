@@ -1,0 +1,61 @@
+import DeleteDestination from '@/components/DeleteDestination';
+import EditWithModal from '@/components/EditWithModal';
+import { Button } from '@heroui/react';
+import Image from 'next/image';
+import React from 'react';
+import { FaArrowLeftLong } from 'react-icons/fa6';
+import { MdOutlineCancel } from 'react-icons/md';
+import { RiEdit2Line } from 'react-icons/ri';
+
+const DestinationDetailsPage = async ({ params }) => {
+
+    const { id } = await params;
+
+    const res = await fetch(`http://localhost:5000/destination/${id}`);
+    const data = await res.json();
+
+    const { destinationName, country, category, price, duration, departureDate, imageUrl, description } = data;
+
+    return (
+        <div className='mx-w-7xl mx-auto'>
+            <h2 className='font-bold text-3xl my-5 text-center'>Destinations Details Here</h2>
+            <div className='flex justify-between items-center my-3'>
+                <p className='flex justify-center items-center gap-1'><FaArrowLeftLong /> Back to destinations</p>
+                <div className='flex gap-3'>
+                    <EditWithModal destination={data}></EditWithModal>
+                    <DeleteDestination destination={data}></DeleteDestination>
+                </div>
+            </div>
+            <div>
+                <Image
+                    src={imageUrl}
+                    alt={destinationName}
+                    width={1000}
+                    height={400}
+                    className='w-full h-[400] mx-auto'
+                ></Image>
+                <div className=''>
+                    <div className='space-y-5'>
+                        <p>{country}</p>
+                        <div className='flex justify-between items-center'>
+                            <h2 className='font-semibold text-3xl'>{destinationName}</h2>
+                            <p className='text-4xl font-semibold'>Price: ${price}/<span className='text-sm text-gray-400'>person</span></p>
+                        </div>
+                        <p>{category}</p>
+                        <p>{duration}</p>
+                        <p>{departureDate}</p>
+                        <div>
+                            <h2 className='text-2xl font-semibold mb-2'>Overview</h2>
+                            <p>{description}</p>
+                        </div>
+                    </div>
+                    <div className='my-8 flex justify-center items-center'>
+                        <button className='text-2xl font-semibold p-3 border border-gray-400 shadow bg-pink-800 text-white rounded-2xl'>Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default DestinationDetailsPage;
