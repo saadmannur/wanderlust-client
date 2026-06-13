@@ -19,7 +19,6 @@ const AddDestinationPage = () => {
             body: JSON.stringify(destination)
         })
         const data = await res.json();
-        
         if (data.acknowledged == true){
             redirect('/destinations')
         }

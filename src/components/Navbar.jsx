@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import NavSession from './NavSession';
 
 const Navbar = () => {
     return (
@@ -19,11 +20,7 @@ const Navbar = () => {
                     height={200}
                 ></Image>
             </div>
-            <ul className='flex justify-center items-center gap-5'>
-                <li><Link href={'/'}>Profile</Link></li>
-                <li><Link href={'/'}>Login</Link></li>
-                <li><Link href={'/'}>Sign Up</Link></li>
-            </ul>
+            <NavSession></NavSession>
             
         </nav>
     );
