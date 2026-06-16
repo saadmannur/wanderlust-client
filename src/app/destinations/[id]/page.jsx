@@ -1,17 +1,19 @@
+import BookingCard from '@/components/BookingCard';
 import DeleteDestination from '@/components/DeleteDestination';
 import EditWithModal from '@/components/EditWithModal';
-import { Button } from '@heroui/react';
 import Image from 'next/image';
 import React from 'react';
 import { FaArrowLeftLong } from 'react-icons/fa6';
-import { MdOutlineCancel } from 'react-icons/md';
-import { RiEdit2Line } from 'react-icons/ri';
 
 const DestinationDetailsPage = async ({ params }) => {
 
     const { id } = await params;
 
-    const res = await fetch(`http://localhost:5000/destination/${id}`);
+    const res = await fetch(`http://localhost:5000/destination/${id}`, {
+        headers: {
+            authorization : "logged in"
+        }
+    });
     const data = await res.json();
 
     const { destinationName, country, category, price, duration, departureDate, imageUrl, description } = data;
@@ -34,13 +36,10 @@ const DestinationDetailsPage = async ({ params }) => {
                     height={400}
                     className='w-full h-[400] mx-auto'
                 ></Image>
-                <div className=''>
+                <div className='flex justify-between items-center'>
                     <div className='space-y-5'>
                         <p>{country}</p>
-                        <div className='flex justify-between items-center'>
-                            <h2 className='font-semibold text-3xl'>{destinationName}</h2>
-                            <p className='text-4xl font-semibold'>Price: ${price}/<span className='text-sm text-gray-400'>person</span></p>
-                        </div>
+                        <h2 className='font-semibold text-3xl'>{destinationName}</h2>
                         <p>{category}</p>
                         <p>{duration}</p>
                         <p>{departureDate}</p>
@@ -49,9 +48,7 @@ const DestinationDetailsPage = async ({ params }) => {
                             <p>{description}</p>
                         </div>
                     </div>
-                    <div className='my-8 flex justify-center items-center'>
-                        <button className='text-2xl font-semibold p-3 border border-gray-400 shadow bg-pink-800 text-white rounded-2xl'>Book Now</button>
-                    </div>
+                    <BookingCard destination={data}></BookingCard>
                 </div>
             </div>
         </div>

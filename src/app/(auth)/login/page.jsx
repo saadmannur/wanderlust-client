@@ -16,7 +16,7 @@ const LoginPage = () => {
         e.preventDefault()
         const formData = new FormData(e.currentTarget)
         const userInfo = Object.fromEntries(formData.entries())
-        console.log(userInfo)
+        // console.log(userInfo)
 
         const { data, error } = await authClient.signIn.email({
             email: userInfo.email,
@@ -24,7 +24,7 @@ const LoginPage = () => {
          
         })
 
-        console.log('signup response', { data, error })
+        // console.log('signup response', { data, error })
 
         if (data) {
             alert('login successful')

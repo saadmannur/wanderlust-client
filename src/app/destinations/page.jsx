@@ -2,7 +2,11 @@ import DestinationCard from '@/components/DestinationCard';
 import React from 'react';
 
 const getDestination = async () => {
-    const res = await fetch("http://localhost:5000/destination");
+    const res = await fetch("http://localhost:5000/destination", {
+        headers: {
+            authorization: "logged in"
+        }
+    });
     const data = await res.json();
     return data;
 }
