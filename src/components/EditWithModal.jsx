@@ -1,7 +1,6 @@
 "use client"
-import { Envelope } from '@gravity-ui/icons';
-import { Button, FieldError, Input, Label, ListBox, Modal, TextArea, TextField, Select, Surface } from '@heroui/react';
-import { redirect } from 'next/navigation';
+import { authClient } from '@/lib/auth-client';
+import { Button, FieldError, Input, Label, ListBox, Modal, TextArea, TextField, Select, Surface } from '@heroui/react';;
 import React from 'react';
 import { RiEdit2Line } from 'react-icons/ri';
 
@@ -14,15 +13,18 @@ const EditWithModal = ({ destination }) => {
         const updatedDestination = Object.fromEntries(formData.entries());
         // console.log(updatedDestination)
 
-        const res = await fetch(`http://localhost:5000/destination/${_id}`, {
+        const {data: tokenData} = await authClient.token()
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${_id}`, {
             method: 'PATCH',
             headers: {
-                'content-type' : 'application/json'
+                'content-type' : 'application/json',
+                authorization: `Bearer ${tokenData.token}`
             },
             body: JSON.stringify(updatedDestination)
         });
         const data = await res.json();
-        console.log(data)
+        // console.log(data)
         
     }
 

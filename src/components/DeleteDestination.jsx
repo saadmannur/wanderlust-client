@@ -1,4 +1,5 @@
 'use client'
+import { authClient } from '@/lib/auth-client';
 import { TrashBin } from '@gravity-ui/icons';
 import { AlertDialog, Button } from '@heroui/react';
 import { redirect } from 'next/navigation';
@@ -8,10 +9,14 @@ const DeleteDestination = ({ destination }) => {
     const { destinationName, _id } = destination;
 
     const handleDelete = async () => {
-        const res = await fetch(`http://localhost:5000/destination/${_id}`,{
+
+        const {data: tokenData} = await authClient.token()
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination/${_id}`,{
             method: "DELETE",
             headers: {
-                'content-type' : 'application/json'
+                'content-type' : 'application/json',
+                authorization: `Bearer ${tokenData.token}`
             }
         });
         const data = await res.json()
